@@ -72,7 +72,9 @@ public abstract class Menu  {
         button.addActionListener(e -> {
             Date fechaselect = fecha.getDate(); // Obtener la fecha seleccionada del JDateChooser
             if (fechaselect != null) {
+                System.out.println("Fecha seleccionada!");
                 FinalDate.set(fechaselect);
+                frame.dispose();
             } else {
                 // Imprimir si no se seleccionó ninguna fecha
                 System.out.println("No se seleccionó ninguna fecha");
@@ -81,8 +83,16 @@ public abstract class Menu  {
 
         // Hacer visible el marco
         frame.setVisible(true);
-        while (FinalDate.get() == null) { byte a; }
+
+        // Esperar que se capture la fecha para retornarla
+        while (FinalDate.get() == null) {
+            // Esperar mas tiempo entre verificacion para reducir el uso de CPU
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return FinalDate.get();
     }
-    
 }
