@@ -18,10 +18,6 @@ public abstract class Menu  {
         JOptionPane.showMessageDialog(null, msg, "title", 1);
     }
 
-    public String input(String msg) {
-        return JOptionPane.showInputDialog(null, msg, title, 3) ;
-    }
-
     public void msgScroll(String msg) {
         JTextArea textArea = new JTextArea(msg);
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -29,6 +25,14 @@ public abstract class Menu  {
         textArea.setWrapStyleWord(true);
         scrollPane.setPreferredSize( new Dimension( 500, 500 ) );
         JOptionPane.showMessageDialog(null, scrollPane, title, 1);
+    }
+
+    public String input(String msg) {
+        return JOptionPane.showInputDialog(null, msg, title, 3) ;
+    }
+
+    public Object inputSelect(String msg, String titleSelect, String[] options) {
+       return JOptionPane.showInputDialog(null, msg, titleSelect, JOptionPane.QUESTION_MESSAGE,null, options, options[0]);
     }
 
     public Date inputDate() {
