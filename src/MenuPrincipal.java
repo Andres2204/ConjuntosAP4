@@ -40,22 +40,24 @@ public class MenuPrincipal extends Menu {
         // System.out.println(inputSelect("Selecciona un color", "Colores!", colores));
 
         /*
-            Ingresar minimo 10 datos por cada ArrayList. (Archivo plano)
-
-            - Un profesor de tiempo completo también puede ser de catedra
-            - Un profesor Ocasional también puede ser de catedra
-            - Un profesor tiempo completo también puede ser ocasional
-
-            1- Listar y contar los profesores que son de tiempo completo solamente
-            2- Listar y contar los profesores que son de catedra solamente
-            3- Listar y contar los profesores que son ocasionales solamente
-            4- Lista y contar el total de profesores
-            5- Listar y contar de profesores de tiempo completo y a la vez que sean de catedra
-            6- Listar y contar los profesores que son ocasionales y a la vez de catedra
-            7- Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y ocasional)
-            8- Cantidad de hombre y mujeres por cada tipo de contrato
-            9- Listar y contar profesores por cada facultad
-            10- Adicionar otra funcion
+         * Ingresar minimo 10 datos por cada ArrayList. (Archivo plano)
+         * 
+         * - Un profesor de tiempo completo también puede ser de catedra
+         * - Un profesor Ocasional también puede ser de catedra
+         * - Un profesor tiempo completo también puede ser ocasional
+         * 
+         * 1- Listar y contar los profesores que son de tiempo completo solamente
+         * 2- Listar y contar los profesores que son de catedra solamente
+         * 3- Listar y contar los profesores que son ocasionales solamente
+         * 4- Lista y contar el total de profesores
+         * 5- Listar y contar de profesores de tiempo completo y a la vez que sean de
+         * catedra
+         * 6- Listar y contar los profesores que son ocasionales y a la vez de catedra
+         * 7- Listar y contar profesores que tengan las 3 condiciones (Catedra, completo
+         * y ocasional)
+         * 8- Cantidad de hombre y mujeres por cada tipo de contrato
+         * 9- Listar y contar profesores por cada facultad
+         * 10- Adicionar otra funcion
          */
 
         cargarDatos();
@@ -92,64 +94,131 @@ public class MenuPrincipal extends Menu {
 
                 case 1: // Listar y contar los profesores que son de tiempo completo solamente
                     /*
-                    * OPERACION:
-                    *   (TIEMPO_COMPLETO - CATEDRA) - OCACIONALES
-                    *
-                    */
+                     * OPERACION:
+                     * (TIEMPO_COMPLETO - CATEDRA) - OCACIONALES
+                     *
+                     */
 
                     ArrayList<Profesor> soloProfesores = diferencia(diferencia(tiempoCompleto, catedra), ocacional);
-                    System.out.println(mostrar(soloProfesores));
+                    msg("Hay " + soloProfesores.size() + " profesores que son solo de tiempo completo, y estos son...");
+                    msgScroll(mostrar(soloProfesores));
                     break;
 
                 case 2: // Listar y contar los profesores que son de catedra solamente
+                    soloProfesores = diferencia(diferencia(catedra, tiempoCompleto), ocacional);
+                    msg("Hay " + soloProfesores.size() + " profesores que son solo de catedra, y estos son...");
+                    msgScroll(mostrar(soloProfesores));
 
                     break;
 
                 case 3: // Listar y contar los profesores que son ocasionales solamente
-
+                    soloProfesores = diferencia(diferencia(ocacional, tiempoCompleto), catedra);
+                    msg("Hay " + soloProfesores.size() + " profesores que son solo ocacionales, y estos son...");
+                    msgScroll(mostrar(soloProfesores));
                     break;
 
                 case 4: // Lista y contar el total de profesores
-
+                    soloProfesores = union(union(tiempoCompleto, ocacional), catedra);
+                    msg("Hay " + soloProfesores.size() + " profesores en total, y estos son...");
+                    msgScroll(mostrar(soloProfesores));
                     break;
 
-                case 5: // Listar y contar de profesores de tiempo completo y a la vez que sean de catedra
-
+                case 5: // Listar y contar de profesores de tiempo completo y a la vez que sean de
+                        // catedra
+                    soloProfesores = intersecion(tiempoCompleto, catedra);
+                    msg("Hay " + soloProfesores.size()
+                            + " profesores que son de tiempo completo y a la vez de catedra, y estos son...");
+                    msgScroll(mostrar(soloProfesores));
                     break;
 
                 case 6: // Listar y contar los profesores que son ocasionales y a la vez de catedra
-
+                    soloProfesores = intersecion(ocacional, catedra);
+                    msg("Hay " + soloProfesores.size()
+                            + " profesores que son ocasionales y a la vez de catedra, y estos son...");
+                    msgScroll(mostrar(soloProfesores));
                     break;
 
-                case 7: // Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y ocasional)
-
+                case 7: // Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y
+                        // ocasional)
+                    soloProfesores = intersecion(intersecion(tiempoCompleto, ocacional), catedra);
+                    msg("Hay " + soloProfesores.size()
+                            + " profesores que son ocasionales y a la vez de catedra, y estos son...");
+                    msgScroll(mostrar(soloProfesores));
                     break;
 
                 case 8: // Cantidad de hombre y mujeres por cada tipo de contrato
-
+                    int[] Mujeres = new int[3], Hombres = new int[3];
+                    for (Profesor profesor : tiempoCompleto) {
+                        if ((profesor.getSexo() + "").contains("F")) {
+                            Mujeres[0]++;
+                        } else
+                            Hombres[0]++;
+                    }
+                    for (Profesor profesor : ocacional) {
+                        if ((profesor.getSexo() + "").contains("F")) {
+                            Mujeres[1]++;
+                        } else
+                            Hombres[1]++;
+                    }
+                    for (Profesor profesor : catedra) {
+                        if ((profesor.getSexo() + "").contains("F")) {
+                            Mujeres[2]++;
+                        } else
+                            Hombres[2]++;
+                    }
+                    msg("Tiempo Completo: \n    Hombres: " + Hombres[0] + "\n    Mujeres: " + Mujeres[0]
+                            + "\nOcacional: \n    Hombres: " + Hombres[1] + "\n    Mujeres: " + Mujeres[1]
+                            + "\nCatedra: \n    Hombres: " + Hombres[2] + "\n    Mujeres: " + Mujeres[2]);
                     break;
 
                 case 9: // Listar y contar profesores por cada facultad
-
+                    int[] Facultades = new int[6];
+                    soloProfesores = union(union(tiempoCompleto, ocacional), catedra);
+                    for (Profesor profesor : soloProfesores) {
+                        switch (profesor.getFacultad()) {
+                            case "Ingenieria":
+                                Facultades[0]++;
+                                break;
+                            case "Deportes":
+                                Facultades[1]++;
+                                break;
+                            case "Comunicacion":
+                                Facultades[2]++;
+                                break;
+                            case "Administracion":
+                                Facultades[3]++;
+                                break;
+                            case "Idiomas":
+                                Facultades[4]++;
+                                break;
+                            case "CienciasBasicas":
+                                Facultades[5]++;
+                                break;
+                            default: msg("que a pasao tio");
+                                break;
+                        }
+                    }
+                    msg("Ingenieria: "+Facultades[0]+"\n Deportes: "+Facultades[1]+"\nComunicación: "+Facultades[2]+"\nAdministracion: "+Facultades[3]+"\nIdiomas: "+Facultades[4]+"\nCiencias Basicas: "+Facultades[5]);
                     break;
 
-                case 10: // F(x) ? -> Realizar una operacion sugerida basandose en los atributos del Docente.
+                case 10: // F(x) ? -> Realizar una operacion sugerida basandose en los atributos del
+                         // Docente.
 
                     /*
-                    *
-                    * Pedir datos:
-                    *   Conjuntos,
-                    *   Operacion
-                    *
-                    * Crear Condicional:
-                    *   Ver si es posible utilizar numero y mayores o iguales
-                    *
-                    * Invocar funcion maestra.
-                    */
+                     *
+                     * Pedir datos:
+                     * Conjuntos,
+                     * Operacion
+                     *
+                     * Crear Condicional:
+                     * Ver si es posible utilizar numero y mayores o iguales
+                     *
+                     * Invocar funcion maestra.
+                     */
 
                     // Selecionar op:
 
-                    String[] opts = {"Union", "Intersecion", "Diferencia"};
+                    String[] opts = { "Union", "Intersecion", "Diferencia" };
                     String selec = (String) inputSelect("Que operacion desea realizar?", "Operacion?", opts);
 
                     Operacion<Profesor> OPERACION_SELECIONADA;
@@ -168,10 +237,10 @@ public class MenuPrincipal extends Menu {
 
                     // Crear condicional.
 
-
                     // para test
                     Condicion<Profesor> cond = (prof) -> {
-                        if (prof.getSexo() == 'M') return true;
+                        if (prof.getSexo() == 'M')
+                            return true;
                         return false;
                     };
 
@@ -188,12 +257,17 @@ public class MenuPrincipal extends Menu {
         }
     }
 
-    public ArrayList<Profesor> funcionMaestra(ArrayList<Profesor> c1, ArrayList<Profesor> c2, Condicion<Profesor> condicion, Operacion<Profesor> operacion) {
+    public ArrayList<Profesor> funcionMaestra(ArrayList<Profesor> c1, ArrayList<Profesor> c2,
+            Condicion<Profesor> condicion, Operacion<Profesor> operacion) {
         Set<Profesor> filtro1 = new HashSet<>();
-        for (Profesor p : c1) if (condicion.probar(p)) filtro1.add(p);
+        for (Profesor p : c1)
+            if (condicion.probar(p))
+                filtro1.add(p);
 
         Set<Profesor> filtro2 = new HashSet<>();
-        for (Profesor p : c2) if (condicion.probar(p)) filtro2.add(p);
+        for (Profesor p : c2)
+            if (condicion.probar(p))
+                filtro2.add(p);
 
         return new ArrayList<>(operacion.realizar(filtro1, filtro2));
     }
@@ -203,7 +277,6 @@ public class MenuPrincipal extends Menu {
         set.addAll(lista2);
         return new ArrayList<>(set);
     }
-
 
     public static ArrayList<Profesor> intersecion(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
         Set<Profesor> set1 = new HashSet<>(lists1);
