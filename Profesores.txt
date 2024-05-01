@@ -18,3 +18,8 @@ to,7788990011,Carla Torres,F,Deportes,Pregrado,1,4,1990-08-05
 to,8899001122,Miguel Gomez,M,Ingenieria,Especialista,2,6,1985-01-30
 to,9900112233,Andrea Castro,F,Deportes,Doctorado,1,3,1999-03-08
 to,0011223344,Julia Hernandez,F,Comunicacion,Pregrado,1,3,1989-06-18
+c,0987654321,María González,F,Deportes,Pregrado,3,10,1985-10-20
+o,1357924680,Carlos Ramírez,M,Comunicacion,Especialista,8,18,1978-03-08
+c,2468013579,Laura Martínez,F,Administracion,Doctorado,6,12,1983-07-25
+o,9876543210,Alejandro López,M,Idiomas,Pregrado,4,8,1995-12-10
+tco,2345678900,Sofía Rodríguez,F,Idiomas,Especialista,5,14,1992-11-18
