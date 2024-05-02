@@ -82,7 +82,8 @@ public class MenuPrincipal extends Menu {
                                 7- Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y ocasional).
                                 8- Cantidad de hombre y mujeres por cada tipo de contrato.
                                 9- Listar y contar profesores por cada facultad.
-                                10- Adicionar otra funcion.
+                                10- Operaciones entre conjuntos.
+                                11- Ingresar profesor.
                                 0- Salir.
                                 """));
             } catch (Exception e) {
@@ -373,6 +374,27 @@ public class MenuPrincipal extends Menu {
                     // <- INVOCACION DE LA FUNCION ADAPTABLE + MOSTRAR ->
                     msgScroll(mostrar(funcionAdaptativa(conjunto1, conjunto2, condicion_final, OPERACION_SELECIONADA)));
                     break;
+                case 11:
+                    String cedula = ValidacionCedula();
+                    String Nombre = Validaciones("[a-zA-Z\\s]+", "Ingrese el nombre completo");
+                    char sexo = ValidacionSexo();
+                    String[] opts2 = { "Ingenieria", "Deportes", "Comunicacion", "Administracion", "Idiomas",
+                            "CienciasBasicas" };
+                    String Facultad = (String) inputSelect("Seleccione el genero", "genero", opts2);
+                    String[] opts3 = { "Pregrado", "Especialista", "Maestria", "Doctorado" };
+                    String titulo = (String) inputSelect("Seleccione el genero", "genero", opts3);
+                    int CantidadAsiganturas = Integer
+                            .parseInt(Validaciones("[1-9]|10", "Ingrese la cantidad de asignaturas que dicta"));
+                    int CantidadHoras = Integer
+                            .parseInt(Validaciones("[1-9]|1[0-9]|20",
+                                    "Ingrese la cantidad de horas de clase dictadas por semana"));
+                    Date FechaNacimineto = inputDate();
+                    Profesor ProfesorNuevo = new Profesor(cedula, Nombre, Facultad, titulo, sexo, CantidadAsiganturas,
+                            CantidadHoras, FechaNacimineto);
+                    TipoProfesor(ProfesorNuevo, "Tiempo Completo");
+                    TipoProfesor(ProfesorNuevo, "Catedra");
+                    TipoProfesor(ProfesorNuevo, "Ocasional");
+                    break;
 
                 default:
                     msg("Opcion invalida.");
@@ -541,6 +563,57 @@ public class MenuPrincipal extends Menu {
             throw new RuntimeException(e);
         } catch (ParseException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    // Validaciones
+    private String Validaciones(String patron, String msginput) {// metodo para realizar todas las valdiaciones con
+        // expresiones regulares
+        Pattern Patron = Pattern.compile(patron);
+        String input;
+        while (true) {
+            input = input(msginput).trim();
+            if (!Patron.matcher(input).matches()) { // validar el formato correcto
+                msg("Formato invalido");
+            } else
+                return input;
+        }
+    }
+
+    private String ValidacionCedula() {
+        String input;
+        while (true) {
+            input = Validaciones("\\d+", "Ingrese la cedula");
+            boolean bandera = true;
+            for (Profesor profesor : union(union(tiempoCompleto, ocacional), catedra)) {
+                if (profesor.getCC().equals(input)) {
+                    bandera = false;
+                    msg("La cedula ya esta en uso");
+                    break;
+                }
+            }
+            if (bandera)
+                return input;
+        }
+    }
+
+    private char ValidacionSexo() {
+        String[] opts = { "Masculino", "Femenino" };
+        String input = (String) inputSelect("Seleccione el genero", "genero", opts);
+        Pattern PatronM = Pattern.compile("M");
+        if (PatronM.matcher(input).find()) {
+            return 'M';
+        } else
+            return 'F';
+    }
+
+    private void TipoProfesor(Profesor profesornuevo, String tipo) {
+        String[] sino = {"Si","No"};
+        String SelectTipo = (String) inputSelect("El profesor es de "+tipo+"?", "tipo de profesor", sino);
+        if(SelectTipo.equals(sino[0])){
+            if(tipo.equals("Tiempo Completo")) tiempoCompleto.add(profesornuevo);
+            else if(tipo.equals("Catedra")) catedra.add(profesornuevo);
+            else ocacional.add(profesornuevo);
         }
     }
 
