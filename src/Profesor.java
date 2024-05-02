@@ -90,7 +90,25 @@ public class Profesor {
         return fechaNacimiento;
     }
 
+    public int getAnoNacimiento() {
+        return Integer.parseInt(fechaNacimiento.toLocaleString().split(",")[0].split("/")[2]);
+    }
+
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("CC: " + getCC() + "\n");
+        s.append("Nombre Completo: " + getNombreCompleto() + "\n");
+        s.append("Facultad: " + getFacultad() + "\n");
+        s.append("Titulo: " + getTitulo() + "\n");
+        s.append("Sexo: " + getSexo() + "\n");
+        s.append("Asignaturas Dictadas: " + getAsignaturasDicta() + "\n");
+        s.append("Horas Dictadas: " + getHorasDictadas() + "\n");
+        s.append("Fecha Nacimiento: " + (getFechaNacimiento().toLocaleString().split(",")[0]) + "\n\n");
+        return s.toString();
     }
 }

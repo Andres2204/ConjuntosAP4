@@ -1,5 +1,5 @@
 tc,1234567890,Juan Perez,M,Ingenieria,Doctorado,5,15,1990-05-15
-tc,2345678901,Maria Lopez,F,Deportes,Maestria,4,12,1985-08-20
+tc,2345678901,María Lopez,F,Deportes,Maestria,4,12,1985-08-20
 tc,3456789012,Carlos Ramirez,M,Comunicacion,Especialista,6,18,1983-11-10
 tc,4567890123,Laura Martinez,F,Administracion,Pregrado,7,20,1988-04-25
 tc,5678901234,Pablo Diaz,M,Idiomas,Pregrado,8,16,1975-09-30

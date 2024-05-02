@@ -1,13 +1,20 @@
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class MenuPrincipal extends Menu {
 
-    private ArrayList<Profesor> tiempoCompleto, catedra, ocacional;
+    private final ArrayList<Profesor> tiempoCompleto;
+    private final ArrayList<Profesor> catedra;
+    private final ArrayList<Profesor> ocacional;
 
+
+    // OPERACIONES
     private final Operacion<Profesor> OPERACION_UNION = (s1, s2) -> {
         Set<Profesor> union = new HashSet<>(s1);
         union.addAll(new HashSet<>(s2));
@@ -41,11 +48,11 @@ public class MenuPrincipal extends Menu {
 
         /*
          * Ingresar minimo 10 datos por cada ArrayList. (Archivo plano)
-         * 
+         *
          * - Un profesor de tiempo completo también puede ser de catedra
          * - Un profesor Ocasional también puede ser de catedra
          * - Un profesor tiempo completo también puede ser ocasional
-         * 
+         *
          * 1- Listar y contar los profesores que son de tiempo completo solamente
          * 2- Listar y contar los profesores que son de catedra solamente
          * 3- Listar y contar los profesores que son ocasionales solamente
@@ -124,7 +131,7 @@ public class MenuPrincipal extends Menu {
                     break;
 
                 case 5: // Listar y contar de profesores de tiempo completo y a la vez que sean de
-                        // catedra
+                    // catedra
                     soloProfesores = intersecion(tiempoCompleto, catedra);
                     msg("Hay " + soloProfesores.size()
                             + " profesores que son de tiempo completo y a la vez de catedra, y estos son...");
@@ -139,7 +146,7 @@ public class MenuPrincipal extends Menu {
                     break;
 
                 case 7: // Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y
-                        // ocasional)
+                    // ocasional)
                     soloProfesores = intersecion(intersecion(tiempoCompleto, ocacional), catedra);
                     msg("Hay " + soloProfesores.size()
                             + " profesores que son ocasionales y a la vez de catedra, y estos son...");
@@ -194,31 +201,34 @@ public class MenuPrincipal extends Menu {
                             case "CienciasBasicas":
                                 Facultades[5]++;
                                 break;
-                            default: msg("que a pasao tio");
+                            default:
+                                msg("que a pasao tio");
                                 break;
                         }
                     }
-                    msg("Ingenieria: "+Facultades[0]+"\n Deportes: "+Facultades[1]+"\nComunicación: "+Facultades[2]+"\nAdministracion: "+Facultades[3]+"\nIdiomas: "+Facultades[4]+"\nCiencias Basicas: "+Facultades[5]);
+                    msg("Ingenieria: " + Facultades[0] + "\n Deportes: " + Facultades[1] + "\nComunicación: " + Facultades[2] + "\nAdministracion: " + Facultades[3] + "\nIdiomas: " + Facultades[4] + "\nCiencias Basicas: " + Facultades[5]);
                     break;
 
-                case 10: // F(x) ? -> Realizar una operacion sugerida basandose en los atributos del
-                         // Docente.
-
+                case 10:
                     /*
+                     * Esta función permite realizar una operación entre dos conjuntos de profesores
+                     * basada en un atributo seleccionado y una condición específica.
                      *
                      * Pedir datos:
-                     * Conjuntos,
-                     * Operacion
+                     *   - Conjuntos de profesores
+                     *   - Operación a realizar (Unión, Intersección, Diferencia)
                      *
                      * Crear Condicional:
-                     * Ver si es posible utilizar numero y mayores o iguales
+                     *   - Aplicar una operación diferente dependiendo de la selección del usuario (igual ==, diferente != , mayor > , menor <).
                      *
-                     * Invocar funcion maestra.
+                     * Invocar función adaptativa que realiza la operación deseada.
+                     *
+                     * @return mensaje que indica el resultado de la operación entre los conjuntos de profesores.
                      */
 
-                    // Selecionar op:
+                    // <- SELECIONAR OPERACION ->
 
-                    String[] opts = { "Union", "Intersecion", "Diferencia" };
+                    String[] opts = {"Union", "Intersecion", "Diferencia"};
                     String selec = (String) inputSelect("Que operacion desea realizar?", "Operacion?", opts);
 
                     Operacion<Profesor> OPERACION_SELECIONADA;
@@ -233,21 +243,135 @@ public class MenuPrincipal extends Menu {
                         continue;
                     }
 
-                    // Selecionar conjuntos.
+                    // <- SELECIONAR CONJUNTOS ->
 
-                    // Crear condicional.
+                    ArrayList<String> conjuntos = new ArrayList<>(Arrays.asList("Profesores de tiempo completo", "Profesores de catedra", "Profesores ocacionales"));
 
-                    // para test
-                    Condicion<Profesor> cond = (prof) -> {
-                        if (prof.getSexo() == 'M')
-                            return true;
-                        return false;
-                    };
+                    // Selecionar primer conjunto
+                    String c1 = (String) inputSelect("Seleccione el primer conjunto: ", "Conjunto 1", conjuntos.toArray(new String[conjuntos.size()]));
+                    ArrayList<Profesor> conjunto1 = null;
+                    if (conjuntos.get(0).equals(c1)) {
+                        conjunto1 = tiempoCompleto;
+                    } else if (conjuntos.get(1).equals(c1)) {
+                        conjunto1 = catedra;
+                    } else if (conjuntos.get(2).equals(c1)) {
+                        conjunto1 = ocacional;
+                    } else System.out.println("xd?");
+                    conjuntos.remove(c1);
 
-                    // INVOCAR FUNCION MAESTRA'
+                    // Seleccionar segundo conjunto
+                    String c2 = (String) inputSelect("Seleccione el segundo conjunto: ", "Conjunto 2", conjuntos.toArray(new String[conjuntos.size()]));
+                    ArrayList<Profesor> conjunto2 = null;
+                    if (c2.contains("completo")) {
+                        conjunto2 = tiempoCompleto;
+                    } else if (c2.contains("catedra")) {
+                        conjunto2 = catedra;
+                    } else if (c2.contains("ocacionales")) {
+                        conjunto2 = ocacional;
+                    } else System.out.println("xd?");
 
-                    // para test
-                    msgScroll(mostrar(funcionMaestra(tiempoCompleto, catedra, cond, OPERACION_SELECIONADA)));
+                    // <- CREAR CONDICIONAL ->
+
+                    ArrayList<String> atrs = new ArrayList<>(Arrays.asList("Titulo", "Facultad", "Sexo", "Horas que dicta", "Asignaturas que dicta", "Año de nacimiento"));
+                    String atr = (String) inputSelect("Selecione atributo por el cual se va a filtrar", "Atributo", atrs.toArray(new String[atrs.size()]));
+
+                    Predicate<Profesor> condicion_final = profesor -> {return true; };
+                    boolean numeric = false;
+
+                    /*
+                        CONDICONAL SIMPLE PARA ATRIBUTOS STRING
+                            - Se captura el valor del atributo
+                            - Se crea la condicion para el atributo
+                    */
+                    if (atrs.get(0).equals(atr)) { // Titulo
+                        String titulo = capturarTitulo();
+                        condicion_final = profesor -> profesor.getTitulo().equals(titulo);
+
+                    } else if (atrs.get(1).equals(atr)) { // Facultad
+                        String facultad = capturarFacultad();
+                        condicion_final = profesor -> profesor.getTitulo().equals(facultad);
+
+                    } else if (atrs.get(2).equals(atr)) { // Sexo
+                        String[] sexos = {"M", "F"};
+                        Character sexo = (Character) inputSelect("Selecione el sexo (Masculino, Femenino)", "Sexo", sexos);
+                        condicion_final = profesor -> profesor.getSexo() == sexo;
+                    }
+
+                    /*
+                        CONDICIONAL PARA ATRIBUTOS NUMERICOS
+                            - Se registra el numero que se va a utilizar en los condicionales
+                            - Se describe el nombre de la funcion del getter
+                            - La flag numeric se vuelve true
+                     */
+                    int numero;
+                    String atributo;
+                    if (atrs.get(3).equals(atr)) { // Horas que dicta
+                        numero = capturarHorasDictadas();
+                        atributo = "getHorasDictadas";
+                        numeric = true;
+
+                    } else if (atrs.get(4).equals(atr)) { // Asignaturas
+                        numero = capturarAsignaturasDictadas();
+                        atributo = "getAsignaturasDicta";
+                        numeric = true;
+
+                    } else if (atrs.get(5).equals(atr)) { // Año de nacimento
+                        Pattern m = Pattern.compile("\\d{4}");
+                        String num;
+                        do {
+                            num = input("Escriba el año [yyyy]: ");
+                        } while (!m.matcher(num).matches());
+                        numero = Integer.parseInt(num);
+                        atributo = "getAnoNacimiento";
+                        numeric = true;
+
+                    } else {
+                        numero = 0;
+                        atributo = "";
+                    }
+
+                    /*
+                        CAMBIOS EN CONDICIONES
+                            - Datos numericos
+                                - La condicion verifica que operacion se escogio y la implementa.
+
+                            - Datos no numericos
+                                - Se verifica si la condicion sera de igualdad o no
+
+                    */
+
+                    if (numeric) { // Datos numericos
+                        String comparacion = cambiarComparacion();
+                        condicion_final = profesor -> {
+                            try {
+                                Method getter = Profesor.class.getMethod(atributo);
+                                int valorAtributo = (int) getter.invoke(profesor);
+                                switch (comparacion) {
+                                    case "<":
+                                        return valorAtributo < numero;
+                                    case ">":
+                                        return valorAtributo > numero;
+                                    case "==":
+                                        return valorAtributo == (numero);
+                                    case "!=":
+                                        return valorAtributo != (numero);
+                                    default:
+                                        System.out.println("Operación no soportada: " + comparacion);
+                                        return false;
+                                }
+                            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                                e.printStackTrace();
+                                return false;
+                            }
+                        };
+                    } else { // Datos no numericos
+                        ArrayList<String> oprs = new ArrayList<>(Arrays.asList("Igual", "Diferente"));
+                        String opr = (String) inputSelect("Bajo que condicion quiere operar?", "Condicion", oprs.toArray(new String[oprs.size()]));
+                        if (oprs.get(1).equals(opr)) condicion_final = condicion_final.negate();
+                    }
+
+                    // <- INVOCACION DE LA FUNCION ADAPTABLE + MOSTRAR ->
+                    msgScroll(mostrar(funcionAdaptativa(conjunto1, conjunto2, condicion_final, OPERACION_SELECIONADA)));
                     break;
 
                 default:
@@ -257,21 +381,32 @@ public class MenuPrincipal extends Menu {
         }
     }
 
-    public ArrayList<Profesor> funcionMaestra(ArrayList<Profesor> c1, ArrayList<Profesor> c2,
-            Condicion<Profesor> condicion, Operacion<Profesor> operacion) {
+    public ArrayList<Profesor> funcionAdaptativa(ArrayList<Profesor> c1, ArrayList<Profesor> c2,
+                                                 Predicate<Profesor> condicion, Operacion<Profesor> operacion) {
+
+        System.out.println("[ FUNCION ADAPTABLE ]");
         Set<Profesor> filtro1 = new HashSet<>();
-        for (Profesor p : c1)
-            if (condicion.probar(p))
+        for (Profesor p : c1) {
+            if (condicion.test(p)) {
                 filtro1.add(p);
+                System.out.println("[!] Filtro 2, coincidencia encontrada" + p.toString());
+            } else System.out.println("[!] Invalido: " + p.getCC());
+
+        }
 
         Set<Profesor> filtro2 = new HashSet<>();
-        for (Profesor p : c2)
-            if (condicion.probar(p))
+        for (Profesor p : c2) {
+            if (condicion.test(p)) {
                 filtro2.add(p);
+                System.out.println("[!] Filtro 2, coincidencia encontrada" + p.toString());
+            } else System.out.println("[!] Invalido: " + p.getCC());
+
+        }
 
         return new ArrayList<>(operacion.realizar(filtro1, filtro2));
     }
 
+    // OPERACIONES
     public static ArrayList<Profesor> union(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
         Set<Profesor> set = new HashSet<>(lists1);
         set.addAll(lista2);
@@ -298,26 +433,82 @@ public class MenuPrincipal extends Menu {
         return set1.containsAll(set2);
     }
 
+    // UTILIDAD
+
+    // captura de datos
+
+    private String capturarFacultad() {
+        String[] facultades = {"Ingenieria", "Deportes", "Comunicación", "Administracion", "Idiomas", "Ciencias Basicas"};
+        return (String) inputSelect("Seleccione la Facultad.", "Facultad", facultades);
+    }
+
+    private String capturarTitulo() {
+        String[] titulos = {"Pregrado", "Especialista", "Maestria", "Doctorado"};
+        return (String) inputSelect("Seleccione el Titulo", "Titulo", titulos);
+    }
+
+    private int capturarAsignaturasDictadas() {
+        Pattern m = Pattern.compile("0*10|0*\\d");
+        String num;
+        do {
+            num = input("Escriba el numero de asignaturas que dicta [1-10]: ");
+        } while (!m.matcher(num).matches());
+        return Integer.parseInt(num);
+    }
+
+    private int capturarHorasDictadas() {
+        Pattern m = Pattern.compile("0*20|0*1\\d|0*\\d");
+        String num;
+        do {
+            num = input("Escriba las horas que ha dictadas [1-20]: ");
+        } while (!m.matcher(num).matches());
+        return Integer.parseInt(num);
+    }
+
+    // funcion a
+    private String cambiarComparacion() {
+        ArrayList<String> oprs = new ArrayList<>(Arrays.asList("Igual", "Diferente", "Mayor", "Menor"));
+        String opr = (String) inputSelect("Bajo que condicion quiere operar?", "Condicion", oprs.toArray(new String[oprs.size()]));
+        if (oprs.get(0).equals(opr)) { // igual
+            return "==";
+        } else if (oprs.get(1).equals(opr)) { // Diferente
+            return "!=";
+        } else if (oprs.get(2).equals(opr)) { // Mayor
+            return ">";
+        } else if (oprs.get(3).equals(opr)) { // Menor
+            return "<";
+        }
+        return "==";
+    }
+
+    // otras utilidades
+
     public String mostrar(ArrayList<Profesor> d) {
         Iterator<Profesor> i = d.iterator();
         StringBuilder s = new StringBuilder();
-        while (i.hasNext()) {
-            Profesor p = i.next();
-            s.append("CC: " + p.getCC() + "\n");
-            s.append("Nombre Completo: " + p.getNombreCompleto() + "\n");
-            s.append("Facultad: " + p.getFacultad() + "\n");
-            s.append("Titulo: " + p.getTitulo() + "\n");
-            s.append("Sexo: " + p.getSexo() + "\n");
-            s.append("Asignaturas Dictadas: " + p.getAsignaturasDicta() + "\n");
-            s.append("Horas Dictadas: " + p.getHorasDictadas() + "\n");
-            s.append("Fecha Nacimiento: " + (p.getFechaNacimiento().toLocaleString().split(",")[0]) + "\n\n");
+        if (!d.isEmpty()) {
+            s.append("Mostrando " + d.size() + " Entradas.\n");
+            while (i.hasNext()) {
+                Profesor p = i.next();
+                s.append("CC: " + p.getCC() + "\n");
+                s.append("Nombre Completo: " + p.getNombreCompleto() + "\n");
+                s.append("Facultad: " + p.getFacultad() + "\n");
+                s.append("Titulo: " + p.getTitulo() + "\n");
+                s.append("Sexo: " + p.getSexo() + "\n");
+                s.append("Asignaturas Dictadas: " + p.getAsignaturasDicta() + "\n");
+                s.append("Horas Dictadas: " + p.getHorasDictadas() + "\n");
+                s.append("Fecha Nacimiento: " + (p.getFechaNacimiento().toLocaleString().split(",")[0]) + "\n\n");
+            }
         }
+
         return s.toString();
     }
+
 
     public void cargarDatos() {
         try {
             FileManager f = new FileManager("Profesores.txt");
+            System.out.println("[ FUNCION: CARGAR DATOS ]");
 
             ArrayList<String> lineas = f.readFileArrayList();
             Iterator<String> i = lineas.iterator();
