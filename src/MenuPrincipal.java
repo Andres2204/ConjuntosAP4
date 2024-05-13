@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class MenuPrincipal extends Menu {
 
-    private final ArrayList<Profesor> tiempoCompleto;
+    private final ArrayList<Profesor> tiempoCompleto; 
     private final ArrayList<Profesor> catedra;
     private final ArrayList<Profesor> ocacional;
 
@@ -34,11 +34,11 @@ public class MenuPrincipal extends Menu {
     };
 
     // CONSTRUCTOR
-    public MenuPrincipal(String title) {
-        super(title);
-        tiempoCompleto = new ArrayList<>();
-        catedra = new ArrayList<>();
-        ocacional = new ArrayList<>();
+    public MenuPrincipal(String title) { //f = 4
+        super(title); //1
+        tiempoCompleto = new ArrayList<>(); //1
+        catedra = new ArrayList<>(); //1
+        ocacional = new ArrayList<>(); //1
     }
 
     @Override
@@ -68,9 +68,9 @@ public class MenuPrincipal extends Menu {
          * 10- Adicionar otra funcion
          */
 
-        cargarDatos();
-        while (true) {
-            int opt;
+        cargarDatos(); // 10n + 14 + (2n + 12) = 12n + 26
+        while (true) { //n
+            int opt; // n
             try {
                 opt = Integer.parseInt(
                         input("""
@@ -86,132 +86,132 @@ public class MenuPrincipal extends Menu {
                                 10- Operaciones entre conjuntos.
                                 11- Ingresar profesor.
                                 0- Salir.
-                                """));
-            } catch (Exception e) {
-                e.printStackTrace();
+                                """)); // n
+            } catch (Exception e) { // n
+                e.printStackTrace(); // n
                 // control de la excepcion.
-                if (e.toString().contains("Cannot parse null string"))
-                    return;
-                msg("Se necesita una opcion valida.");
-                continue;
+                if (e.toString().contains("Cannot parse null string")) // n
+                    return; // n
+                msg("Se necesita una opcion valida."); // n
+                continue; // n
             }
 
-            switch (opt) {
-                case 0: {
-                    return;
+            switch (opt) { // n
+                case 0: { // n
+                    return;// n
                 }
 
-                case 1: // Listar y contar los profesores que son de tiempo completo solamente
+                case 1: // Listar y contar los profesores que son de tiempo completo solamente; n
                     /*
                      * OPERACION:
                      * (TIEMPO_COMPLETO - CATEDRA) - OCACIONALES
                      *
                      */
 
-                    ArrayList<Profesor> soloProfesores = diferencia(diferencia(tiempoCompleto, catedra), ocacional);
-                    msg("Hay " + soloProfesores.size() + " profesores que son solo de tiempo completo, y estos son...");
-                    msgScroll(mostrar(soloProfesores));
-                    break;
+                    ArrayList<Profesor> soloProfesores = diferencia(diferencia(tiempoCompleto, catedra), ocacional); // (24n^2 + 52n + 28)*2n = 48n^3 + 52n^2 + 28n
+                    msg("Hay " + soloProfesores.size() + " profesores que son solo de tiempo completo, y estos son..."); // 2n
+                    msgScroll(mostrar(soloProfesores)); // (10n + 5 + 6)*n = 10n^2 + 11n
+                    break; // n
 
-                case 2: // Listar y contar los profesores que son de catedra solamente
-                    soloProfesores = diferencia(diferencia(catedra, tiempoCompleto), ocacional);
-                    msg("Hay " + soloProfesores.size() + " profesores que son solo de catedra, y estos son...");
-                    msgScroll(mostrar(soloProfesores));
+                case 2: // Listar y contar los profesores que son de catedra solamente; n
+                    soloProfesores = diferencia(diferencia(catedra, tiempoCompleto), ocacional); // 48n^3 + 52n^2 + 28n
+                    msg("Hay " + soloProfesores.size() + " profesores que son solo de catedra, y estos son..."); // 2n
+                    msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
 
-                    break;
+                    break; // n
 
-                case 3: // Listar y contar los profesores que son ocasionales solamente
-                    soloProfesores = diferencia(diferencia(ocacional, tiempoCompleto), catedra);
-                    msg("Hay " + soloProfesores.size() + " profesores que son solo ocacionales, y estos son...");
-                    msgScroll(mostrar(soloProfesores));
-                    break;
+                case 3: // Listar y contar los profesores que son ocasionales solamente; n
+                    soloProfesores = diferencia(diferencia(ocacional, tiempoCompleto), catedra); // 48n^3 + 52n^2 + 28n
+                    msg("Hay " + soloProfesores.size() + " profesores que son solo ocacionales, y estos son..."); // 2n
+                    msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
+                    break; // n
 
-                case 4: // Lista y contar el total de profesores
-                    soloProfesores = union(union(tiempoCompleto, ocacional), catedra);
-                    msg("Hay " + soloProfesores.size() + " profesores en total, y estos son...");
-                    msgScroll(mostrar(soloProfesores));
-                    break;
+                case 4: // Lista y contar el total de profesores; n
+                    soloProfesores = union(union(tiempoCompleto, ocacional), catedra); // (3n + 4)*2n = 6n^2 + 8n
+                    msg("Hay " + soloProfesores.size() + " profesores en total, y estos son..."); // 2n
+                    msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
+                    break; // n
 
-                case 5: // Listar y contar de profesores de tiempo completo y a la vez que sean de
+                case 5: // Listar y contar de profesores de tiempo completo y a la vez que sean de; n
                     // catedra
-                    soloProfesores = intersecion(tiempoCompleto, catedra);
+                    soloProfesores = intersecion(tiempoCompleto, catedra); // (4n + 8)*n = 4n^2 + 16
                     msg("Hay " + soloProfesores.size()
-                            + " profesores que son de tiempo completo y a la vez de catedra, y estos son...");
-                    msgScroll(mostrar(soloProfesores));
-                    break;
+                            + " profesores que son de tiempo completo y a la vez de catedra, y estos son..."); // 2n
+                    msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
+                    break; // n
 
-                case 6: // Listar y contar los profesores que son ocasionales y a la vez de catedra
-                    soloProfesores = intersecion(ocacional, catedra);
+                case 6: // Listar y contar los profesores que son ocasionales y a la vez de catedra; n
+                    soloProfesores = intersecion(ocacional, catedra); // 4n^2 + 16
                     msg("Hay " + soloProfesores.size()
-                            + " profesores que son ocasionales y a la vez de catedra, y estos son...");
-                    msgScroll(mostrar(soloProfesores));
-                    break;
+                            + " profesores que son ocasionales y a la vez de catedra, y estos son..."); // 2n
+                    msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
+                    break; // n
 
-                case 7: // Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y
+                case 7: // Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y; n
                     // ocasional)
-                    soloProfesores = intersecion(intersecion(tiempoCompleto, ocacional), catedra);
+                    soloProfesores = intersecion(intersecion(tiempoCompleto, ocacional), catedra); // (4n^2 + 16)*2n = 8n^3 +32n
                     msg("Hay " + soloProfesores.size()
-                            + " profesores que son ocasionales y a la vez de catedra, y estos son...");
-                    msgScroll(mostrar(soloProfesores));
-                    break;
+                            + " profesores que son ocasionales y a la vez de catedra, y estos son..."); // 2n
+                    msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
+                    break; // n
 
-                case 8: // Cantidad de hombre y mujeres por cada tipo de contrato
-                    int[] Mujeres = new int[3], Hombres = new int[3];
-                    for (Profesor profesor : tiempoCompleto) {
-                        if ((profesor.getSexo() + "").contains("F")) {
-                            Mujeres[0]++;
+                case 8: // Cantidad de hombre y mujeres por cada tipo de contrato; n
+                    int[] Mujeres = new int[3], Hombres = new int[3]; // n
+                    for (Profesor profesor : tiempoCompleto) { // mn
+                        if ((profesor.getSexo() + "").contains("F")) { // mn
+                            Mujeres[0]++; // mn
                         } else
-                            Hombres[0]++;
+                            Hombres[0]++; // mn
                     }
-                    for (Profesor profesor : ocacional) {
-                        if ((profesor.getSexo() + "").contains("F")) {
-                            Mujeres[1]++;
+                    for (Profesor profesor : ocacional) { //mn
+                        if ((profesor.getSexo() + "").contains("F")) { //mn
+                            Mujeres[1]++; // mn
                         } else
-                            Hombres[1]++;
+                            Hombres[1]++; // mn
                     }
-                    for (Profesor profesor : catedra) {
-                        if ((profesor.getSexo() + "").contains("F")) {
-                            Mujeres[2]++;
+                    for (Profesor profesor : catedra) { // mn
+                        if ((profesor.getSexo() + "").contains("F")) { // mn
+                            Mujeres[2]++; // mn
                         } else
-                            Hombres[2]++;
+                            Hombres[2]++; // mn
                     }
                     msg("Tiempo Completo: \n    Hombres: " + Hombres[0] + "\n    Mujeres: " + Mujeres[0]
                             + "\nOcacional: \n    Hombres: " + Hombres[1] + "\n    Mujeres: " + Mujeres[1]
-                            + "\nCatedra: \n    Hombres: " + Hombres[2] + "\n    Mujeres: " + Mujeres[2]);
-                    break;
+                            + "\nCatedra: \n    Hombres: " + Hombres[2] + "\n    Mujeres: " + Mujeres[2]); // n
+                    break; // n
 
-                case 9: // Listar y contar profesores por cada facultad
-                    int[] Facultades = new int[6];
-                    soloProfesores = union(union(tiempoCompleto, ocacional), catedra);
-                    for (Profesor profesor : soloProfesores) {
-                        switch (profesor.getFacultad()) {
-                            case "Ingenieria":
-                                Facultades[0]++;
-                                break;
-                            case "Deportes":
-                                Facultades[1]++;
-                                break;
-                            case "Comunicacion":
-                                Facultades[2]++;
-                                break;
-                            case "Administracion":
-                                Facultades[3]++;
-                                break;
-                            case "Idiomas":
-                                Facultades[4]++;
-                                break;
-                            case "CienciasBasicas":
-                                Facultades[5]++;
-                                break;
-                            default:
-                                msg("que a pasao tio");
+                case 9: // Listar y contar profesores por cada facultad; n
+                    int[] Facultades = new int[6]; // n
+                    soloProfesores = union(union(tiempoCompleto, ocacional), catedra); // 6n^2 + 8n
+                    for (Profesor profesor : soloProfesores) { // mn
+                        switch (profesor.getFacultad()) { // mn
+                            case "Ingenieria": // mn
+                                Facultades[0]++; // mn
+                                break; // mn
+                            case "Deportes": // mn
+                                Facultades[1]++; // mn
+                                break; // mn
+                            case "Comunicacion": // mn
+                                Facultades[2]++; // mn
+                                break; // mn
+                            case "Administracion": // mn
+                                Facultades[3]++; // mn
+                                break; // mn
+                            case "Idiomas": // mn
+                                Facultades[4]++; // mn
+                                break; // mn
+                            case "CienciasBasicas": // mn
+                                Facultades[5]++; // mn
+                                break; // mn
+                            default: // mn
+                                msg("que a pasao tio"); // mn
                                 break;
                         }
                     }
-                    msg("Ingenieria: " + Facultades[0] + "\n Deportes: " + Facultades[1] + "\nComunicación: " + Facultades[2] + "\nAdministracion: " + Facultades[3] + "\nIdiomas: " + Facultades[4] + "\nCiencias Basicas: " + Facultades[5]);
-                    break;
+         /* n */    msg("Ingenieria: " + Facultades[0] + "\n Deportes: " + Facultades[1] + "\nComunicación: " + Facultades[2] + "\nAdministracion: " + Facultades[3] + "\nIdiomas: " + Facultades[4] + "\nCiencias Basicas: " + Facultades[5]);
+                    break; // n
 
-                case 10:
+                case 10: // n
                     /*
                      * Esta función permite realizar una operación entre dos conjuntos de profesores
                      * basada en un atributo seleccionado y una condición específica.
@@ -388,30 +388,30 @@ public class MenuPrincipal extends Menu {
                     break;
 
                 case 11:
-                    String cedula = ValidacionCedula();
-                    String Nombre = Validaciones("[a-zA-Z\\s]+", "Ingrese el nombre completo");
-                    char sexo = ValidacionSexo();
+                    String cedula = ValidacionCedula(); // (6nm^2 +12mn + 7n + 4)*n = 6(nm)^2 + 12mn^2 + 7n^2 + 4n
+                    String Nombre = Validaciones("[a-zA-Z\\s]+", "Ingrese el nombre completo"); // (3n + 3)*n = 3n^2 +3n
+                    char sexo = ValidacionSexo(); // 7n
                     String[] opts2 = { "Ingenieria", "Deportes", "Comunicacion", "Administracion", "Idiomas",
-                            "CienciasBasicas" };
-                    String Facultad = (String) inputSelect("Seleccione el genero", "genero", opts2);
-                    String[] opts3 = { "Pregrado", "Especialista", "Maestria", "Doctorado" };
-                    String titulo = (String) inputSelect("Seleccione el genero", "genero", opts3);
+                            "CienciasBasicas" }; // n
+                    String Facultad = (String) inputSelect("Seleccione el genero", "genero", opts2); // 7n
+                    String[] opts3 = { "Pregrado", "Especialista", "Maestria", "Doctorado" }; // n
+                    String titulo = (String) inputSelect("Seleccione el genero", "genero", opts3); // 7n
                     int CantidadAsiganturas = Integer
-                            .parseInt(Validaciones("[1-9]|10", "Ingrese la cantidad de asignaturas que dicta"));
+                            .parseInt(Validaciones("[1-9]|10", "Ingrese la cantidad de asignaturas que dicta")); // 3n^2 +3n
                     int CantidadHoras = Integer
                             .parseInt(Validaciones("[1-9]|1[0-9]|20",
-                                    "Ingrese la cantidad de horas de clase dictadas por semana"));
-                    Date FechaNacimineto = inputDate();
+                                    "Ingrese la cantidad de horas de clase dictadas por semana")); // 3n^2 +3n
+                    Date FechaNacimineto = inputDate(); // (4n + 33)*n = 4n^2 + 33n
                     Profesor ProfesorNuevo = new Profesor(cedula, Nombre, Facultad, titulo, sexo, CantidadAsiganturas,
-                            CantidadHoras, FechaNacimineto);
-                    TipoProfesor(ProfesorNuevo, "Tiempo Completo");
-                    TipoProfesor(ProfesorNuevo, "Catedra");
-                    TipoProfesor(ProfesorNuevo, "Ocasional");
-                    break;
+                            CantidadHoras, FechaNacimineto); // 8n
+                    TipoProfesor(ProfesorNuevo, "Tiempo Completo"); // 18n
+                    TipoProfesor(ProfesorNuevo, "Catedra"); // 18n
+                    TipoProfesor(ProfesorNuevo, "Ocasional"); // 18n
+                    break; // n
 
-                default:
-                    msg("Opcion invalida.");
-                    break;
+                default: // n
+                    msg("Opcion invalida."); // n
+                    break; // n
             }
         }
     }
@@ -462,7 +462,7 @@ public class MenuPrincipal extends Menu {
 
 
 
-    public static ArrayList<Profesor> union(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
+    public static ArrayList<Profesor> union(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) { // f = 3n + 4
         Set<Profesor> set = new HashSet<>(lists1);
         set.addAll(lista2);
         return new ArrayList<>(set);
@@ -482,13 +482,31 @@ public class MenuPrincipal extends Menu {
     }
 
     public static ArrayList<Profesor> intersecion(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
-        Set<Profesor> set1 = new HashSet<>(lists1);
-        Set<Profesor> set2 = new HashSet<>(lista2);
-        set1.retainAll(set2);
-        return new ArrayList<>(set1);
+        Set<Profesor> set1 = new HashSet<>(lists1); 
+        Set<Profesor> set2 = new HashSet<>(lista2); 
+        set1.retainAll(set2); // 4n + 4 
+        return new ArrayList<>(set1); 
+
+        // FRECUENCIA TOTAL DE INTERSECCION = 4n + 8
+
+        /* public boolean retainAll(Collection<?> c) {
+            Objects.requireNonNull(c); 1
+            boolean modified = false; 1
+            Iterator<E> it = iterator(); 1
+            while (it.hasNext()) { n
+                if (!c.contains(it.next())) { n
+                    it.remove(); n
+                    modified = true; n
+                }
+            }
+            return modified; 1
+        }
+        retainAll = 4n + 4  
+        */
+
     }
 
-    public static ArrayList<Profesor> diferencia(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
+    public static ArrayList<Profesor> diferencia(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) { 
         Set<Profesor> set1 = new HashSet<>(lists1);
         Set<Profesor> set2 = new HashSet<>(lista2);
         set1.removeAll(set2); // 24n^2 + 52n + 24
@@ -662,40 +680,40 @@ public class MenuPrincipal extends Menu {
         }
     }
 
-    private String ValidacionCedula() {
-        String input;
-        while (true) {
-            input = Validaciones("\\d+", "Ingrese la cedula");
-            boolean bandera = true;
-            for (Profesor profesor : union(union(tiempoCompleto, ocacional), catedra)) {
-                if (profesor.getCC().equals(input)) {
-                    bandera = false;
-                    msg("La cedula ya esta en uso");
-                    break;
+    private String ValidacionCedula() { // f = 6nm^2 + 12mn + 7n + 4
+        String input; // 1
+        while (true) { // n
+            input = Validaciones("\\d+", "Ingrese la cedula"); // 3n + 3
+            boolean bandera = true; // n
+            for (Profesor profesor : union(union(tiempoCompleto, ocacional), catedra)) { // (6m^2 + 8m)*n = 6nm^2 + 8nm
+                if (profesor.getCC().equals(input)) { // nm
+                    bandera = false; // mn
+                    msg("La cedula ya esta en uso"); // mn
+                    break; // mn
                 }
             }
-            if (bandera)
-                return input;
+            if (bandera) // n
+                return input; // n
         }
     }
 
-    private char ValidacionSexo() {
-        String[] opts = { "Masculino", "Femenino" };
-        String input = (String) inputSelect("Seleccione el genero", "genero", opts);
-        Pattern PatronM = Pattern.compile("M");
-        if (PatronM.matcher(input).find()) {
-            return 'M';
-        } else
-            return 'F';
+    private char ValidacionSexo() { // f = 7
+        String[] opts = { "Masculino", "Femenino" }; // 1
+        String input = (String) inputSelect("Seleccione el genero", "genero", opts); // 1
+        Pattern PatronM = Pattern.compile("M"); // 1
+        if (PatronM.matcher(input).find()) { // 1
+            return 'M'; // 1
+        } else // 1
+            return 'F'; // 1
     }
 
-    private void TipoProfesor(Profesor profesornuevo, String tipo) {
-        String[] sino = {"Si","No"};
-        String SelectTipo = (String) inputSelect("El profesor es de "+tipo+"?", "tipo de profesor", sino);
-        if(SelectTipo.equals(sino[0])){
-            if(tipo.equals("Tiempo Completo")) tiempoCompleto.add(profesornuevo);
-            else if(tipo.equals("Catedra")) catedra.add(profesornuevo);
-            else ocacional.add(profesornuevo);
+    private void TipoProfesor(Profesor profesornuevo, String tipo) { // f = 18
+        String[] sino = {"Si","No"}; // 1
+        String SelectTipo = (String) inputSelect("El profesor es de "+tipo+"?", "tipo de profesor", sino); // 7
+        if(SelectTipo.equals(sino[0])){ // 1
+            if(tipo.equals("Tiempo Completo")) tiempoCompleto.add(profesornuevo); // 3
+            else if(tipo.equals("Catedra")) catedra.add(profesornuevo); // 3
+            else ocacional.add(profesornuevo); // 3
         }
     }
 

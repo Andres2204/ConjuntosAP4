@@ -8,17 +8,17 @@ public abstract class Menu  {
 
     private String title;
 
-    public Menu(String title) {
-        this.title = title;
+    public Menu(String title) { //f = 1
+        this.title = title; //1
     }
 
     abstract public void menu();
 
-    public void msg(String msg) {
+    public void msg(String msg) { // f = 1
         JOptionPane.showMessageDialog(null, msg, "title", 1);
     }
 
-    public void msgScroll(String msg) {
+    public void msgScroll(String msg) { // f = 6
         JTextArea textArea = new JTextArea(msg);
         JScrollPane scrollPane = new JScrollPane(textArea);
         textArea.setLineWrap(true);
@@ -27,15 +27,15 @@ public abstract class Menu  {
         JOptionPane.showMessageDialog(null, scrollPane, title, 1);
     }
 
-    public String input(String msg) {
+    public String input(String msg) { // f = 1
         return JOptionPane.showInputDialog(null, msg, title, 3) ;
     }
 
-    public Object inputSelect(String msg, String titleSelect, String[] options) {
+    public Object inputSelect(String msg, String titleSelect, String[] options) { // f = 1
        return JOptionPane.showInputDialog(null, msg, titleSelect, JOptionPane.QUESTION_MESSAGE,null, options, options[0]);
     }
 
-    public Date inputDate() {
+    public Date inputDate() { // f = 4n + 33
 
         // Crear un nuevo marco (ventana)
         JFrame frame = new JFrame("Seleccionar fecha");
