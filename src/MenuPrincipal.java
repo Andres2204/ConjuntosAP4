@@ -33,6 +33,7 @@ public class MenuPrincipal extends Menu {
         return dif;
     };
 
+    // CONSTRUCTOR
     public MenuPrincipal(String title) {
         super(title);
         tiempoCompleto = new ArrayList<>();
@@ -243,6 +244,7 @@ public class MenuPrincipal extends Menu {
                         System.out.println("[!] De donde chota se colo la opcion" + selec);
                         continue;
                     }
+                    // 12
 
                     // <- SELECIONAR CONJUNTOS ->
 
@@ -259,6 +261,7 @@ public class MenuPrincipal extends Menu {
                         conjunto1 = ocacional;
                     } else System.out.println("xd?");
                     conjuntos.remove(c1);
+                    // 11
 
                     // Seleccionar segundo conjunto
                     String c2 = (String) inputSelect("Seleccione el segundo conjunto: ", "Conjunto 2", conjuntos.toArray(new String[conjuntos.size()]));
@@ -270,6 +273,7 @@ public class MenuPrincipal extends Menu {
                     } else if (c2.contains("ocacionales")) {
                         conjunto2 = ocacional;
                     } else System.out.println("xd?");
+                    // 9
 
                     // <- CREAR CONDICIONAL ->
 
@@ -297,6 +301,7 @@ public class MenuPrincipal extends Menu {
                         Character sexo = (Character) inputSelect("Selecione el sexo (Masculino, Femenino)", "Sexo", sexos);
                         condicion_final = profesor -> profesor.getSexo() == sexo;
                     }
+                    // 15
 
                     /*
                         CONDICIONAL PARA ATRIBUTOS NUMERICOS
@@ -330,6 +335,7 @@ public class MenuPrincipal extends Menu {
                         numero = 0;
                         atributo = "";
                     }
+                    // 3n + 19
 
                     /*
                         CAMBIOS EN CONDICIONES
@@ -370,10 +376,17 @@ public class MenuPrincipal extends Menu {
                         String opr = (String) inputSelect("Bajo que condicion quiere operar?", "Condicion", oprs.toArray(new String[oprs.size()]));
                         if (oprs.get(1).equals(opr)) condicion_final = condicion_final.negate();
                     }
+                    // 25
 
                     // <- INVOCACION DE LA FUNCION ADAPTABLE + MOSTRAR ->
                     msgScroll(mostrar(funcionAdaptativa(conjunto1, conjunto2, condicion_final, OPERACION_SELECIONADA)));
+                    // mostrar = 10n + 5
+                    // f adaptativa = 10n + 4
+                    // sumatoria + 1 = 3n + 91 + 1
+
+                    // f total = 23n + 101
                     break;
+
                 case 11:
                     String cedula = ValidacionCedula();
                     String Nombre = Validaciones("[a-zA-Z\\s]+", "Ingrese el nombre completo");
@@ -403,7 +416,7 @@ public class MenuPrincipal extends Menu {
         }
     }
 
-    public ArrayList<Profesor> funcionAdaptativa(ArrayList<Profesor> c1, ArrayList<Profesor> c2,
+    public ArrayList<Profesor> funcionAdaptativa(ArrayList<Profesor> c1, ArrayList<Profesor> c2, // f = 10n + 4
                                                  Predicate<Profesor> condicion, Operacion<Profesor> operacion) {
 
         System.out.println("[ FUNCION ADAPTABLE ]");
@@ -413,7 +426,6 @@ public class MenuPrincipal extends Menu {
                 filtro1.add(p);
                 System.out.println("[!] Filtro 2, coincidencia encontrada" + p.toString());
             } else System.out.println("[!] Invalido: " + p.getCC());
-
         }
 
         Set<Profesor> filtro2 = new HashSet<>();
@@ -422,17 +434,51 @@ public class MenuPrincipal extends Menu {
                 filtro2.add(p);
                 System.out.println("[!] Filtro 2, coincidencia encontrada" + p.toString());
             } else System.out.println("[!] Invalido: " + p.getCC());
-
         }
 
         return new ArrayList<>(operacion.realizar(filtro1, filtro2));
     }
 
     // OPERACIONES
+
+    /*
+     < METODOS USADOS POR LA CLASE HASHSET >
+
+        public boolean contains(Object o) {
+            Iterator<E> it = iterator();        1
+            if (o==null) {                      1
+                while (it.hasNext())            n
+                    if (it.next()==null)        n
+                        return true;            1
+            } else {
+                while (it.hasNext())            n
+                    if (o.equals(it.next()))    n
+                       return true;             1
+            }
+            return false;                       1
+        }
+        contains = 4n + 6
+    */
+
+
+
     public static ArrayList<Profesor> union(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
         Set<Profesor> set = new HashSet<>(lists1);
         set.addAll(lista2);
         return new ArrayList<>(set);
+
+
+        /*
+        public boolean addAll(Collection<? extends E> c) {
+            boolean modified = false;   1
+            for (E e : c)               n
+                if (add(e))             n
+                    modified = true;    n
+            return modified;            1
+        }
+        addAll = 3n + 1
+
+        */
     }
 
     public static ArrayList<Profesor> intersecion(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
@@ -445,31 +491,67 @@ public class MenuPrincipal extends Menu {
     public static ArrayList<Profesor> diferencia(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
         Set<Profesor> set1 = new HashSet<>(lists1);
         Set<Profesor> set2 = new HashSet<>(lista2);
-        set1.removeAll(set2);
+        set1.removeAll(set2); // 24n^2 + 52n + 24
         return new ArrayList<>(set1);
+
+        // FRECUENCIA TOTAL DE DIFERENCIA => 24n^2 + 52n + 28
+
+        /*
+        public boolean removeAll(Collection<?> c) {
+        Objects.requireNonNull(c);          1
+        boolean modified = false;           1
+
+        if (size() > c.size()) {            1
+            for (Object e : c)              n
+                modified |= remove(e);      n
+        } else {
+            for (Iterator<?> i = iterator(); i.hasNext(); ) {   n
+                if (c.contains(i.next())) {                     n
+                    i.remove();                                 n
+                    modified = true;                            n
+                }
+            }
+        }
+        return modified;                                        1
+        }
+        removeAll = (6n + 4)*(4n + 6) = 24n^2 + 36n + 16n + 24
+        -> 24n^2 + 52n + 24
+        */
+
     }
 
     public static boolean subconjuntoDe(ArrayList<Profesor> lists1, ArrayList<Profesor> lista2) {
         Set<Profesor> set1 = new HashSet<>(lists1);
         Set<Profesor> set2 = new HashSet<>(lista2);
         return set1.containsAll(set2);
+        // FRECUENCIA TOTAL DE SUBCONJUNTO DE 8n^2 + 20n + 15
+        /*
+        contains = 4n + 6
+        public boolean containsAll(Collection<?> c) {
+        for (Object e : c)      n
+            if (!contains(e))   n
+                return false;   1
+        return true;            1
+        }
+        constainsAll = (2n + 2)*(4n + 6) = 8n^2 + 20n + 12
+        */
     }
 
     // UTILIDAD
 
     // captura de datos
 
-    private String capturarFacultad() {
+    private String capturarFacultad() { // f = 2
         String[] facultades = {"Ingenieria", "Deportes", "Comunicación", "Administracion", "Idiomas", "Ciencias Basicas"};
         return (String) inputSelect("Seleccione la Facultad.", "Facultad", facultades);
     }
 
-    private String capturarTitulo() {
+    private String capturarTitulo() { // f = 2
         String[] titulos = {"Pregrado", "Especialista", "Maestria", "Doctorado"};
         return (String) inputSelect("Seleccione el Titulo", "Titulo", titulos);
     }
 
-    private int capturarAsignaturasDictadas() {
+    private int capturarAsignaturasDictadas() { // f = 2n + 3
         Pattern m = Pattern.compile("0*10|0*\\d");
         String num;
         do {
@@ -478,7 +560,7 @@ public class MenuPrincipal extends Menu {
         return Integer.parseInt(num);
     }
 
-    private int capturarHorasDictadas() {
+    private int capturarHorasDictadas() { // f = 2n + 3
         Pattern m = Pattern.compile("0*20|0*1\\d|0*\\d");
         String num;
         do {
@@ -488,7 +570,7 @@ public class MenuPrincipal extends Menu {
     }
 
     // funcion a
-    private String cambiarComparacion() {
+    private String cambiarComparacion() { // f = n
         ArrayList<String> oprs = new ArrayList<>(Arrays.asList("Igual", "Diferente", "Mayor", "Menor"));
         String opr = (String) inputSelect("Bajo que condicion quiere operar?", "Condicion", oprs.toArray(new String[oprs.size()]));
         if (oprs.get(0).equals(opr)) { // igual
@@ -505,7 +587,7 @@ public class MenuPrincipal extends Menu {
 
     // otras utilidades
 
-    public String mostrar(ArrayList<Profesor> d) {
+    public String mostrar(ArrayList<Profesor> d) { // f = 10n + 5
         Iterator<Profesor> i = d.iterator();
         StringBuilder s = new StringBuilder();
         if (!d.isEmpty()) {
@@ -527,12 +609,12 @@ public class MenuPrincipal extends Menu {
     }
 
 
-    public void cargarDatos() {
+    public void cargarDatos() { // f = 10n + 14 + (2n + 12)
         try {
             FileManager f = new FileManager("Profesores.txt");
             System.out.println("[ FUNCION: CARGAR DATOS ]");
 
-            ArrayList<String> lineas = f.readFileArrayList();
+            ArrayList<String> lineas = f.readFileArrayList(); // 2n + 12
             Iterator<String> i = lineas.iterator();
 
             while (i.hasNext()) {
@@ -567,7 +649,7 @@ public class MenuPrincipal extends Menu {
     }
 
     // Validaciones
-    private String Validaciones(String patron, String msginput) {// metodo para realizar todas las valdiaciones con
+    private String Validaciones(String patron, String msginput) {// metodo para realizar todas las valdiaciones con; f = 3n + 3
         // expresiones regulares
         Pattern Patron = Pattern.compile(patron);
         String input;
