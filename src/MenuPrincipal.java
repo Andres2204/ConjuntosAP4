@@ -148,7 +148,7 @@ public class MenuPrincipal extends Menu {
 
                 case 7: // Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y; n
                     // ocasional)
-                    soloProfesores = intersecion(intersecion(tiempoCompleto, ocacional), catedra); // (4n^2 + 16)*2n = 8n^3 +32n
+                    soloProfesores = intersecion(intersecion(tiempoCompleto, ocacional), catedra); // (4n^2 + 8n)*2n = 8n^3 +16n^2
                     msg("Hay " + soloProfesores.size()
                             + " profesores que son ocasionales y a la vez de catedra, y estos son..."); // 2n
                     msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
