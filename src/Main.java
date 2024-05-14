@@ -1,6 +1,7 @@
 
 public class Main {
     public static void main(String[] args) {
-        new MenuPrincipal("Prueba").menu(); // 6(mn)^2 + 12mn^2 + 158n^3 + 34mn + 304n^2 + 580n + 30
+        new MenuPrincipal("Prueba").menu(); // 144n^3+284n^2+6n^2m^2+549n+34nm+12n^2m+26
+        // orden = O(n^2m^2)
     }
 }
