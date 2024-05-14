@@ -111,41 +111,40 @@ public class MenuPrincipal extends Menu {
                     ArrayList<Profesor> soloProfesores = diferencia(diferencia(tiempoCompleto, catedra), ocacional); // (24n^2 + 52n + 28)*2n = 48n^3 + 52n^2 + 28n
                     msg("Hay " + soloProfesores.size() + " profesores que son solo de tiempo completo, y estos son..."); // 2n
                     msgScroll(mostrar(soloProfesores)); // (10n + 5 + 6)*n = 10n^2 + 11n
-                    break; // n
+                    break; // n ; f total 1 = 48n^3 + 62n^2 + 53n
 
                 case 2: // Listar y contar los profesores que son de catedra solamente; n
                     soloProfesores = diferencia(diferencia(catedra, tiempoCompleto), ocacional); // 48n^3 + 52n^2 + 28n
                     msg("Hay " + soloProfesores.size() + " profesores que son solo de catedra, y estos son..."); // 2n
                     msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
-
-                    break; // n
+                    break; // n ; f total 2 = 48n^3 + 62n^2 + 53n
 
                 case 3: // Listar y contar los profesores que son ocasionales solamente; n
                     soloProfesores = diferencia(diferencia(ocacional, tiempoCompleto), catedra); // 48n^3 + 52n^2 + 28n
                     msg("Hay " + soloProfesores.size() + " profesores que son solo ocacionales, y estos son..."); // 2n
                     msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
-                    break; // n
+                    break; // n; f total 3 = 48n^3 + 62n^2 + 53n
 
                 case 4: // Lista y contar el total de profesores; n
                     soloProfesores = union(union(tiempoCompleto, ocacional), catedra); // (3n + 4)*2n = 6n^2 + 8n
                     msg("Hay " + soloProfesores.size() + " profesores en total, y estos son..."); // 2n
                     msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
-                    break; // n
+                    break; // n; f total 4 = 16n^2 + 23n
 
                 case 5: // Listar y contar de profesores de tiempo completo y a la vez que sean de; n
                     // catedra
-                    soloProfesores = intersecion(tiempoCompleto, catedra); // (4n + 8)*n = 4n^2 + 16
+                    soloProfesores = intersecion(tiempoCompleto, catedra); // (4n + 8)*n = 4n^2 + 8n
                     msg("Hay " + soloProfesores.size()
                             + " profesores que son de tiempo completo y a la vez de catedra, y estos son..."); // 2n
                     msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
-                    break; // n
+                    break; // n; f total 5 = 4n^2 + 23n
 
                 case 6: // Listar y contar los profesores que son ocasionales y a la vez de catedra; n
-                    soloProfesores = intersecion(ocacional, catedra); // 4n^2 + 16
+                    soloProfesores = intersecion(ocacional, catedra); // 4n^2 + 8n
                     msg("Hay " + soloProfesores.size()
                             + " profesores que son ocasionales y a la vez de catedra, y estos son..."); // 2n
                     msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
-                    break; // n
+                    break; // n ; f total 6 = 14n^2 + 22n
 
                 case 7: // Listar y contar profesores que tengan las 3 condiciones (Catedra, completo y; n
                     // ocasional)
@@ -153,7 +152,7 @@ public class MenuPrincipal extends Menu {
                     msg("Hay " + soloProfesores.size()
                             + " profesores que son ocasionales y a la vez de catedra, y estos son..."); // 2n
                     msgScroll(mostrar(soloProfesores)); // 10n^2 + 11n
-                    break; // n
+                    break; // n; f total 7 = 18n^2 + 56n
 
                 case 8: // Cantidad de hombre y mujeres por cada tipo de contrato; n
                     int[] Mujeres = new int[3], Hombres = new int[3]; // n
@@ -178,7 +177,7 @@ public class MenuPrincipal extends Menu {
                     msg("Tiempo Completo: \n    Hombres: " + Hombres[0] + "\n    Mujeres: " + Mujeres[0]
                             + "\nOcacional: \n    Hombres: " + Hombres[1] + "\n    Mujeres: " + Mujeres[1]
                             + "\nCatedra: \n    Hombres: " + Hombres[2] + "\n    Mujeres: " + Mujeres[2]); // n
-                    break; // n
+                    break; // n ; f total 8 = 12mn + 4n
 
                 case 9: // Listar y contar profesores por cada facultad; n
                     int[] Facultades = new int[6]; // n
@@ -209,7 +208,7 @@ public class MenuPrincipal extends Menu {
                         }
                     }
          /* n */    msg("Ingenieria: " + Facultades[0] + "\n Deportes: " + Facultades[1] + "\nComunicación: " + Facultades[2] + "\nAdministracion: " + Facultades[3] + "\nIdiomas: " + Facultades[4] + "\nCiencias Basicas: " + Facultades[5]);
-                    break; // n
+                    break; // n; f total 9 = 6n^2 + 22nm + 10n
 
                 case 10: // n
                     /*
@@ -244,7 +243,7 @@ public class MenuPrincipal extends Menu {
                         System.out.println("[!] De donde chota se colo la opcion" + selec);
                         continue;
                     }
-                    // 12
+                    // 12n
 
                     // <- SELECIONAR CONJUNTOS ->
 
@@ -261,19 +260,19 @@ public class MenuPrincipal extends Menu {
                         conjunto1 = ocacional;
                     } else System.out.println("xd?");
                     conjuntos.remove(c1);
-                    // 11
+                    // 11n
 
                     // Seleccionar segundo conjunto
                     String c2 = (String) inputSelect("Seleccione el segundo conjunto: ", "Conjunto 2", conjuntos.toArray(new String[conjuntos.size()]));
                     ArrayList<Profesor> conjunto2 = null;
-                    if (c2.contains("completo")) {
+                    if (c2.contains("completo")) { // 4n^2 + 6n
                         conjunto2 = tiempoCompleto;
-                    } else if (c2.contains("catedra")) {
+                    } else if (c2.contains("catedra")) { // 4n^2 + 6n
                         conjunto2 = catedra;
-                    } else if (c2.contains("ocacionales")) {
+                    } else if (c2.contains("ocacionales")) { // 4n^2 + 6n
                         conjunto2 = ocacional;
-                    } else System.out.println("xd?");
-                    // 9
+                    } else System.out.println("xd?"); // 4n^2 + 6n
+                    // ->  16n^2 + 28n
 
                     // <- CREAR CONDICIONAL ->
 
@@ -301,7 +300,7 @@ public class MenuPrincipal extends Menu {
                         Character sexo = (Character) inputSelect("Selecione el sexo (Masculino, Femenino)", "Sexo", sexos);
                         condicion_final = profesor -> profesor.getSexo() == sexo;
                     }
-                    // 15
+                    // 15n
 
                     /*
                         CONDICIONAL PARA ATRIBUTOS NUMERICOS
@@ -326,7 +325,7 @@ public class MenuPrincipal extends Menu {
                         String num;
                         do {
                             num = input("Escriba el año [yyyy]: ");
-                        } while (!m.matcher(num).matches());
+                        } while (!m.matcher(num).matches()); // 3m
                         numero = Integer.parseInt(num);
                         atributo = "getAnoNacimiento";
                         numeric = true;
@@ -335,7 +334,7 @@ public class MenuPrincipal extends Menu {
                         numero = 0;
                         atributo = "";
                     }
-                    // 3n + 19
+                    // 3m + 19n
 
                     /*
                         CAMBIOS EN CONDICIONES
@@ -376,16 +375,16 @@ public class MenuPrincipal extends Menu {
                         String opr = (String) inputSelect("Bajo que condicion quiere operar?", "Condicion", oprs.toArray(new String[oprs.size()]));
                         if (oprs.get(1).equals(opr)) condicion_final = condicion_final.negate();
                     }
-                    // 25
+                    // 25n
 
                     // <- INVOCACION DE LA FUNCION ADAPTABLE + MOSTRAR ->
                     msgScroll(mostrar(funcionAdaptativa(conjunto1, conjunto2, condicion_final, OPERACION_SELECIONADA)));
                     // mostrar = 10n + 5
                     // f adaptativa = 10n + 4
-                    // sumatoria + 1 = 3n + 91 + 1
+                    // sumatoria + 3 = 25n + 3m + 19n + 16n^2 + 28n + 15n + 23n + 3n
 
-                    // f total = 23n + 101
-                    break;
+
+                    break; // n; f total 10 = 16n^2 + 113n + 3m
 
                 case 11:
                     String cedula = ValidacionCedula(); // (6nm^2 +12mn + 7n + 4)*n = 6(nm)^2 + 12mn^2 + 7n^2 + 4n
@@ -408,13 +407,14 @@ public class MenuPrincipal extends Menu {
                     TipoProfesor(ProfesorNuevo, "Catedra"); // 18n
                     TipoProfesor(ProfesorNuevo, "Ocasional"); // 18n
                     break; // n
+                    // f total 11 =  6(nm)^2 + 12mn^2 + 17n^2 + 124n
 
                 default: // n
                     msg("Opcion invalida."); // n
                     break; // n
             }
         }
-    }
+    } // f total metodo menu = 15n + sumatoriaCasos = 144n^3+284n^2+6n^2m^2+537n+34nm+12n^2m
 
     public ArrayList<Profesor> funcionAdaptativa(ArrayList<Profesor> c1, ArrayList<Profesor> c2, // f = 10n + 4
                                                  Predicate<Profesor> condicion, Operacion<Profesor> operacion) {
