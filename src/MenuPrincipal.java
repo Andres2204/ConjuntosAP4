@@ -414,7 +414,7 @@ public class MenuPrincipal extends Menu {
                     break; // n
             }
         }
-    } // f total metodo menu = 15n + sumatoriaCasos = 144n^3+284n^2+6n^2m^2+537n+34nm+12n^2m
+    } // f total metodo menu = 15n + sumatoriaCasos = 144n^3+284n^2+6n^2m^2+549n+34nm+12n^2m+26
 
     public ArrayList<Profesor> funcionAdaptativa(ArrayList<Profesor> c1, ArrayList<Profesor> c2, // f = 10n + 4
                                                  Predicate<Profesor> condicion, Operacion<Profesor> operacion) {
